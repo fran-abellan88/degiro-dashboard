@@ -43,44 +43,43 @@ class DeGiroProcessorPG:
             if columns_to_drop:
                 df.drop(columns=columns_to_drop, inplace=True)
 
-            # Flexible column mapping - handle different CSV formats
-            column_mapping = {}
+            # Handle original DeGiro CSV format with combined amount columns
+            if "Unnamed: 8" in df.columns and "Variación" in df.columns:
+                logger.info("Processing original DeGiro CSV format")
+                df["amount"] = (df["Unnamed: 8"].astype(str) + " " + df["Variación"]).fillna("0 EUR")
+                
+                # Extract amount and currency
+                df[["amount_value", "amount_currency"]] = df["amount"].str.extract(r"([\d\.,\-]+)\s*(EUR|USD|GBP)")
+                df["amount_EUR"] = pd.to_numeric(df["amount_value"].str.replace(",", "."), errors='coerce')
+                
+                # Drop original columns
+                drop_cols = ["Unnamed: 8", "Variación", "amount", "amount_value", "amount_currency"]
+                existing_cols = [col for col in drop_cols if col in df.columns]
+                if existing_cols:
+                    df.drop(columns=existing_cols, inplace=True)
             
-            # Date column
-            date_cols = ["Fecha", "Date", "date"]
-            for col in date_cols:
-                if col in df.columns:
-                    column_mapping[col] = "date"
-                    break
-                    
-            # Product column  
-            product_cols = ["Producto", "Product", "product"]
-            for col in product_cols:
-                if col in df.columns:
-                    column_mapping[col] = "product"
-                    break
-                    
-            # Description column
-            desc_cols = ["Descripción", "Description", "description", "Descripcion"]
-            for col in desc_cols:
-                if col in df.columns:
-                    column_mapping[col] = "original_description"  
-                    break
-                    
-            # Amount column
-            amount_cols = ["Cambio", "Change", "amount", "Amount", "amount_EUR", "Amount EUR"]
-            for col in amount_cols:
-                if col in df.columns:
-                    column_mapping[col] = "amount_EUR"
-                    break
-                    
-            # Balance column
-            balance_cols = ["Saldo EUR", "Balance EUR", "balance", "Balance", "balance_EUR"]
-            for col in balance_cols:
-                if col in df.columns:
-                    column_mapping[col] = "balance_EUR"
-                    break
+            # Handle balance columns if present
+            if "Unnamed: 10" in df.columns and "Saldo" in df.columns:
+                df["balance"] = (df["Unnamed: 10"].astype(str) + " " + df["Saldo"]).fillna("0 EUR")
+                df[["balance_value", "balance_currency"]] = df["balance"].str.extract(r"([\d\.,\-]+)\s*(EUR|USD|GBP)")
+                df["balance_EUR"] = pd.to_numeric(df["balance_value"].str.replace(",", "."), errors='coerce')
+                
+                # Drop original columns
+                drop_cols = ["Unnamed: 10", "Saldo", "balance", "balance_value", "balance_currency"]
+                existing_cols = [col for col in drop_cols if col in df.columns]
+                if existing_cols:
+                    df.drop(columns=existing_cols, inplace=True)
+
+            # Standard column mapping for DeGiro CSV
+            standard_mapping = {
+                "Fecha": "date",
+                "Hora": "hour", 
+                "Producto": "product",
+                "Descripción": "original_description"
+            }
             
+            # Apply standard mapping for columns that exist
+            column_mapping = {k: v for k, v in standard_mapping.items() if k in df.columns}
             logger.info(f"Column mapping applied: {column_mapping}")
             df = df.rename(columns=column_mapping)
 
@@ -92,8 +91,11 @@ class DeGiroProcessorPG:
                 df["year"] = df["date"].dt.year
 
             # Clean product names and extract ISIN
-            df["ISIN"] = df["product"].str.extract(r"\(([A-Z]{2}[A-Z0-9]{9}[0-9])\)")
-            df["product"] = df["product"].str.replace(r"\s*\([A-Z]{2}[A-Z0-9]{9}[0-9]\)", "", regex=True)
+            if 'product' in df.columns:
+                df["ISIN"] = df["product"].str.extract(r"\(([A-Z]{2}[A-Z0-9]{9}[0-9])\)")
+                df["product"] = df["product"].str.replace(r"\s*\([A-Z]{2}[A-Z0-9]{9}[0-9]\)", "", regex=True)
+            else:
+                df["ISIN"] = None
 
             logger.info(f"Loaded {len(df)} records from DeGiro CSV")
             return df
