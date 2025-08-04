@@ -5,9 +5,8 @@ services:
     buildCommand: "pip install -r requirements.txt && python init_db.py"
     startCommand: "python app.py"
     plan: free
+    runtime: python-3.11.9
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
       - key: PORT
         value: 10000
       - key: RENDER
