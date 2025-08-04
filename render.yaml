@@ -1,11 +1,17 @@
+databases:
+  - name: degiro-postgres
+    databaseName: degiro_dashboard
+    user: degiro_user
+    plan: free
+
 services:
   - type: web
     name: degiro-dashboard
     env: python
+    runtime: python-3.11.9
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python app_pg.py"
     plan: free
-    runtime: python-3.11.9
     envVars:
       - key: PORT
         value: 10000
@@ -16,9 +22,3 @@ services:
           name: degiro-postgres
           property: connectionString
     healthCheckPath: /health
-
-databases:
-  - name: degiro-postgres
-    databaseName: degiro_dashboard
-    user: degiro_user
-    plan: free

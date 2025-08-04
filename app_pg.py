@@ -4,6 +4,7 @@ DeGiro Dashboard - PostgreSQL Version
 Unified Application for Render Deployment with PostgreSQL support
 """
 
+import asyncio
 import json
 import logging
 import os
@@ -31,15 +32,35 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager"""
     # Startup
     logger.info("Starting DeGiro Dashboard with PostgreSQL support...")
-    await db_manager.init_pool()
-    await db_manager.create_tables()
-    logger.info("Database initialized successfully")
+    
+    # Retry database connection with backoff
+    max_retries = 30
+    retry_delay = 2
+    
+    for attempt in range(max_retries):
+        try:
+            await db_manager.init_pool()
+            await db_manager.create_tables()
+            logger.info("Database initialized successfully")
+            break
+        except Exception as e:
+            if attempt < max_retries - 1:
+                logger.warning(f"Database connection attempt {attempt + 1} failed: {e}")
+                logger.info(f"Retrying in {retry_delay} seconds...")
+                await asyncio.sleep(retry_delay)
+                retry_delay = min(retry_delay * 1.5, 30)  # Exponential backoff, max 30s
+            else:
+                logger.error(f"Failed to connect to database after {max_retries} attempts: {e}")
+                raise
 
     yield
 
     # Shutdown
-    await db_manager.close_pool()
-    logger.info("Database connections closed")
+    try:
+        await db_manager.close_pool()
+        logger.info("Database connections closed")
+    except Exception as e:
+        logger.warning(f"Error closing database connections: {e}")
 
 
 # Initialize FastAPI app
