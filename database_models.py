@@ -194,6 +194,12 @@ class DatabaseManager:
 
             # Insert new transactions
             for _, row in transactions_df.iterrows():
+                # Helper function to safely get string values
+                def safe_str(value, default=""):
+                    if pd.isna(value) or value is None:
+                        return default
+                    return str(value)
+                
                 await conn.execute(
                     """
                     INSERT INTO transactions 
@@ -203,12 +209,12 @@ class DatabaseManager:
                 """,
                     user_id,
                     pd.to_datetime(row["date"]).date() if pd.notna(row["date"]) else None,
-                    row.get("product", ""),
-                    row.get("ISIN", ""),
-                    row.get("original_description", ""),
-                    row.get("description", ""),
-                    row.get("category", ""),
-                    row.get("country", ""),
+                    safe_str(row.get("product")),
+                    safe_str(row.get("ISIN")),
+                    safe_str(row.get("original_description")),
+                    safe_str(row.get("description")),
+                    safe_str(row.get("category")),
+                    safe_str(row.get("country")),
                     float(row["amount_EUR"]) if pd.notna(row["amount_EUR"]) else 0.0,
                     bool(row.get("is_valid", True)),
                     int(row["shares"]) if pd.notna(row["shares"]) else 0,
@@ -224,6 +230,12 @@ class DatabaseManager:
 
             # Insert new holdings
             for _, row in holdings_df.iterrows():
+                # Helper function to safely get string values
+                def safe_str(value, default=""):
+                    if pd.isna(value) or value is None:
+                        return default
+                    return str(value)
+                    
                 await conn.execute(
                     """
                     INSERT INTO holdings 
@@ -232,16 +244,16 @@ class DatabaseManager:
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
                 """,
                     user_id,
-                    row.get("isin", ""),
-                    row.get("company_name", ""),
-                    row.get("symbol", ""),
+                    safe_str(row.get("isin")),
+                    safe_str(row.get("company_name")),
+                    safe_str(row.get("symbol")),
                     float(row["current_price"]) if pd.notna(row["current_price"]) else None,
-                    row.get("currency", ""),
+                    safe_str(row.get("currency")),
                     int(row["shares_held"]) if pd.notna(row["shares_held"]) else 0,
                     float(row["position_value"]) if pd.notna(row["position_value"]) else 0.0,
                     pd.to_datetime(row["fetch_date"]).date() if pd.notna(row["fetch_date"]) else None,
                     pd.to_datetime(row["fetch_timestamp"]) if pd.notna(row["fetch_timestamp"]) else None,
-                    row.get("source", ""),
+                    safe_str(row.get("source")),
                 )
 
     async def get_user_transactions(self, user_id: str, transaction_type: str = None) -> List[Dict]:
