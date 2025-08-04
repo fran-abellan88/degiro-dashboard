@@ -1129,16 +1129,34 @@
 
         async function checkPortfolioStatus() {
             try {
+                console.log('Checking portfolio status for user:', currentUserId);
                 const response = await fetch(`/api/portfolio-status/${currentUserId}`);
+                console.log('Portfolio status response:', response.status);
+                
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('Portfolio status data:', data);
+                    
                     if (data.has_data) {
+                        console.log('Data found, loading dashboard...');
                         document.getElementById('uploadSection').style.display = 'none';
                         updatePortfolioStatus(data);
+                        // Load the actual dashboard data
+                        loadData();
+                    } else {
+                        console.log('No data found, showing upload interface');
+                        document.getElementById('uploadSection').style.display = 'block';
+                        document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
                     }
+                } else {
+                    console.log('No portfolio status found, showing upload interface');
+                    document.getElementById('uploadSection').style.display = 'block';
+                    document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
                 }
             } catch (error) {
-                console.log('No existing portfolio data found');
+                console.log('Error checking portfolio status:', error);
+                document.getElementById('uploadSection').style.display = 'block';
+                document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
             }
         }
 
@@ -2889,7 +2907,8 @@
         // Initialize the dashboard when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initializeUpload();
-            loadData();
+            // Check if data exists first, then decide what to show
+            checkPortfolioStatus();
         });
     </script>
 </body>
