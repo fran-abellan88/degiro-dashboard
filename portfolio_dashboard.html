@@ -1319,17 +1319,9 @@
                     document.getElementById('portfolioStatus').style.display = 'none';
                     document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
                     return;
-                } else if (false) { // Disabled the old 404 check
-                        // No data found - show upload interface
-                        console.log('No portfolio data found - showing upload interface');
-                        document.getElementById('uploadSection').style.display = 'block';
-                        document.getElementById('portfolioStatus').style.display = 'none';
-                        document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
-                        return; // Don't try to render charts
-                    } else {
-                        throw new Error('Failed to load portfolio data');
-                    }
-                } catch (error) {
+                }
+                
+            } catch (error) {
                     console.error('Error loading data from database:', error);
                     // Show upload interface if no data is available
                     document.getElementById('uploadSection').style.display = 'block';
