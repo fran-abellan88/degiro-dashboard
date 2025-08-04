@@ -1321,19 +1321,19 @@
                     return;
                 }
                 
-            } catch (error) {
-                    console.error('Error loading data from database:', error);
-                    // Show upload interface if no data is available
-                    document.getElementById('uploadSection').style.display = 'block';
-                    document.getElementById('portfolioStatus').style.display = 'none';
-                    document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
-                    return;
-                }
-
                 // Initialize dashboard with loaded data
                 initializeDashboard();
                 
-            } catch (error) {
+            } catch (dbError) {
+                console.error('Error loading data from database:', dbError);
+                // Show upload interface if no data is available
+                document.getElementById('uploadSection').style.display = 'block';
+                document.getElementById('portfolioStatus').style.display = 'none';
+                document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
+                return;
+            }
+
+        } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('last-updated').innerHTML = `
                     <span style="color: var(--red-accent)">
