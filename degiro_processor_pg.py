@@ -43,52 +43,43 @@ class DeGiroProcessorPG:
             if columns_to_drop:
                 df.drop(columns=columns_to_drop, inplace=True)
 
-            # Handle original DeGiro CSV format with combined amount columns
-            if "Unnamed: 8" in df.columns and "Variación" in df.columns:
-                logger.info("Processing original DeGiro CSV format")
-                df["amount"] = (df["Unnamed: 8"].astype(str) + " " + df["Variación"]).fillna("0 EUR")
-                
-                # Extract amount and currency
-                df[["amount_value", "amount_currency"]] = df["amount"].str.extract(r"([\d\.,\-]+)\s*(EUR|USD|GBP)")
-                df["amount_EUR"] = pd.to_numeric(df["amount_value"].str.replace(",", "."), errors='coerce')
-                
-                # Drop original columns
-                drop_cols = ["Unnamed: 8", "Variación", "amount", "amount_value", "amount_currency"]
-                existing_cols = [col for col in drop_cols if col in df.columns]
-                if existing_cols:
-                    df.drop(columns=existing_cols, inplace=True)
-            
-            # Handle balance columns if present
-            if "Unnamed: 10" in df.columns and "Saldo" in df.columns:
-                df["balance"] = (df["Unnamed: 10"].astype(str) + " " + df["Saldo"]).fillna("0 EUR")
-                df[["balance_value", "balance_currency"]] = df["balance"].str.extract(r"([\d\.,\-]+)\s*(EUR|USD|GBP)")
-                df["balance_EUR"] = pd.to_numeric(df["balance_value"].str.replace(",", "."), errors='coerce')
-                
-                # Drop original columns
-                drop_cols = ["Unnamed: 10", "Saldo", "balance", "balance_value", "balance_currency"]
-                existing_cols = [col for col in drop_cols if col in df.columns]
-                if existing_cols:
-                    df.drop(columns=existing_cols, inplace=True)
+            # Clean data - BEFORE renaming (like in generate_datasets.py)
+            df.dropna(subset=["Fecha"], inplace=True)
+            df["Fecha"] = pd.to_datetime(df["Fecha"], dayfirst=True)
+            df["year_month"] = df["Fecha"].dt.strftime("%Y-%m")
+            df["year"] = df["Fecha"].dt.year
 
-            # Standard column mapping for DeGiro CSV
-            standard_mapping = {
-                "Fecha": "date",
-                "Hora": "hour", 
-                "Producto": "product",
-                "Descripción": "original_description"
-            }
+            # Rename columns (like in generate_datasets.py)
+            df = df.rename(
+                columns={
+                    "Fecha": "date",
+                    "Hora": "hour",
+                    "Producto": "product",
+                    "Descripción": "original_description",
+                }
+            )
             
-            # Apply standard mapping for columns that exist
-            column_mapping = {k: v for k, v in standard_mapping.items() if k in df.columns}
-            logger.info(f"Column mapping applied: {column_mapping}")
-            df = df.rename(columns=column_mapping)
+            # Process amount and balance columns (exactly like generate_datasets.py)
+            df["amount"] = (df["Unnamed: 8"].astype(str) + " " + df["Variación"]).fillna("0 EUR")
+            df["balance"] = (df["Unnamed: 10"].astype(str) + " " + df["Saldo"]).fillna("0 EUR")
 
-            # Clean data - now that columns are renamed
-            if 'date' in df.columns:
-                df.dropna(subset=["date"], inplace=True)
-                df["date"] = pd.to_datetime(df["date"], dayfirst=True)
-                df["year_month"] = df["date"].dt.strftime("%Y-%m")
-                df["year"] = df["date"].dt.year
+            # Drop original columns
+            drop_cols = ["Unnamed: 8", "Unnamed: 10", "Variación", "Saldo"]
+            existing_cols = [col for col in drop_cols if col in df.columns]
+            if existing_cols:
+                df.drop(columns=existing_cols, inplace=True)
+
+            # Extract currency information (exactly like generate_datasets.py)
+            df[["amount", "amount_currency"]] = df["amount"].str.extract(r"([\d\.,\-]+)\s*(EUR|USD|GBP)")
+            df[["balance", "balance_currency"]] = df["balance"].str.extract(r"([\d\.,\-]+)\s*(EUR|USD|GBP)")
+
+            # Convert to numeric (exactly like generate_datasets.py)
+            df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+            df["balance"] = pd.to_numeric(df["balance"], errors="coerce")
+            
+            # For compatibility with PostgreSQL processor, also create amount_EUR
+            df["amount_EUR"] = df["amount"]
+            df["balance_EUR"] = df["balance"]
 
             # Clean product names and extract ISIN
             if 'product' in df.columns:
