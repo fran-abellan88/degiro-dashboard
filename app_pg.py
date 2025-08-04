@@ -33,6 +33,16 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting DeGiro Dashboard with PostgreSQL support...")
     
+    # Debug environment variables
+    database_url = os.environ.get('DATABASE_URL')
+    logger.info(f"DATABASE_URL present: {bool(database_url)}")
+    if database_url:
+        # Log URL without password for security
+        safe_url = database_url.replace(database_url.split('@')[0].split(':')[-1], '[HIDDEN]') if '@' in database_url else database_url
+        logger.info(f"DATABASE_URL: {safe_url}")
+    else:
+        logger.error("DATABASE_URL environment variable not found!")
+    
     # Retry database connection with backoff
     max_retries = 30
     retry_delay = 2
