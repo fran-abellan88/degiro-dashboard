@@ -208,3 +208,7 @@ __marimo__/
 
 .vscode
 .flake8
+output/
+degiro_reports/
+.DS_Store
+stock_data.db

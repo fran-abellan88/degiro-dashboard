@@ -399,6 +399,158 @@
             font-size: 0.875rem;
         }
 
+        /* Upload Section Styles */
+        .upload-card {
+            margin-bottom: 2rem;
+            border: 2px dashed var(--card-border);
+            transition: all 0.3s ease;
+        }
+
+        .upload-card.dragover {
+            border-color: var(--primary-blue);
+            background: rgba(100, 181, 246, 0.05);
+        }
+
+        .upload-description {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .upload-area {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-content h4 {
+            color: var(--text-primary);
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .upload-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .upload-button:hover {
+            background: rgba(100, 181, 246, 0.8);
+        }
+
+        .upload-info {
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .upload-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-blue), var(--green-accent));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .upload-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .upload-status.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green-accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: block;
+        }
+
+        .upload-status.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red-accent);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            display: block;
+        }
+
+        /* Status Card Styles */
+        .status-card {
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--green-accent);
+        }
+
+        .status-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .status-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .status-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .refresh-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-self: end;
+        }
+
+        .refresh-button:hover {
+            background: rgba(100, 181, 246, 0.8);
+            transform: translateY(-1px);
+        }
+
     </style>
 </head>
 <body>
@@ -423,6 +575,68 @@
     </header>
 
     <main class="container">
+        <!-- File Upload Section -->
+        <div class="card upload-card" id="uploadSection">
+            <div class="card-header">
+                <h3>
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    Upload DeGiro Data
+                </h3>
+                <p class="upload-description">
+                    Upload your DeGiro Account export file (Account_YYYYMMDD.csv) to analyze your portfolio
+                </p>
+            </div>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <i class="fas fa-file-csv upload-icon"></i>
+                    <h4>Drag & Drop your DeGiro CSV file here</h4>
+                    <p>or <button class="upload-button" type="button" onclick="document.getElementById('fileInput').click()">browse files</button></p>
+                    <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                    <div class="upload-info">
+                        <small>
+                            <i class="fas fa-info-circle"></i>
+                            Supported format: Account_YYYYMMDD.csv from DeGiro
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="upload-progress" id="uploadProgress" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Processing...</div>
+            </div>
+            <div class="upload-status" id="uploadStatus"></div>
+        </div>
+
+        <!-- Portfolio Status -->
+        <div class="card status-card" id="portfolioStatus" style="display: none;">
+            <div class="card-header">
+                <h3>
+                    <i class="fas fa-check-circle"></i>
+                    Portfolio Data Loaded
+                </h3>
+            </div>
+            <div class="status-info">
+                <div class="status-item">
+                    <span class="status-label">Last Upload:</span>
+                    <span class="status-value" id="lastUploadTime">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Transactions:</span>
+                    <span class="status-value" id="transactionCount">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Holdings:</span>
+                    <span class="status-value" id="holdingCount">-</span>
+                </div>
+                <button class="refresh-button" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Data
+                </button>
+            </div>
+        </div>
+
         <!-- Key Performance Indicators -->
         <h2 class="section-title">
             <i class="fas fa-tachometer-alt"></i>
@@ -774,6 +988,149 @@
         let dividendsData = null;
         let buysData = null;
         let sellsData = null;
+        let currentUserId = generateUserId(); // Generate unique user ID
+
+        // Generate a unique user ID for this session
+        function generateUserId() {
+            return 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        }
+
+        // File Upload Functionality
+        function initializeUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const uploadSection = document.getElementById('uploadSection');
+            const portfolioStatus = document.getElementById('portfolioStatus');
+
+            // Drag and drop handlers
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadSection.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadSection.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadSection.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileUpload(files[0]);
+                }
+            });
+
+            // File input change handler
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
+
+            // Check if portfolio data already exists
+            checkPortfolioStatus();
+        }
+
+        async function handleFileUpload(file) {
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                showUploadStatus('Please select a CSV file.', 'error');
+                return;
+            }
+
+            showUploadProgress(true);
+            updateProgress(10, 'Reading file...');
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('user_id', currentUserId);
+
+                updateProgress(30, 'Uploading file...');
+
+                const response = await fetch('/api/upload-degiro-data', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                updateProgress(60, 'Processing data...');
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Upload failed');
+                }
+
+                const result = await response.json();
+                updateProgress(100, 'Complete!');
+
+                setTimeout(() => {
+                    showUploadProgress(false);
+                    showUploadStatus(`
+                        Upload successful! Processed ${result.transactions_count} transactions 
+                        and ${result.holdings_count} holdings.
+                    `, 'success');
+                    
+                    // Hide upload section and show status
+                    document.getElementById('uploadSection').style.display = 'none';
+                    updatePortfolioStatus(result);
+                    
+                    // Reload the dashboard data
+                    loadDashboardData();
+                }, 1000);
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                showUploadProgress(false);
+                showUploadStatus(`Upload failed: ${error.message}`, 'error');
+            }
+        }
+
+        function showUploadProgress(show) {
+            document.getElementById('uploadProgress').style.display = show ? 'block' : 'none';
+        }
+
+        function updateProgress(percentage, text) {
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = text;
+        }
+
+        function showUploadStatus(message, type) {
+            const statusEl = document.getElementById('uploadStatus');
+            statusEl.textContent = message;
+            statusEl.className = `upload-status ${type}`;
+        }
+
+        function updatePortfolioStatus(data) {
+            document.getElementById('portfolioStatus').style.display = 'block';
+            document.getElementById('lastUploadTime').textContent = new Date().toLocaleString();
+            document.getElementById('transactionCount').textContent = data.transactions_count || 0;
+            document.getElementById('holdingCount').textContent = data.holdings_count || 0;
+        }
+
+        async function checkPortfolioStatus() {
+            try {
+                const response = await fetch(`/api/portfolio-status/${currentUserId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.has_data) {
+                        document.getElementById('uploadSection').style.display = 'none';
+                        updatePortfolioStatus(data);
+                    }
+                }
+            } catch (error) {
+                console.log('No existing portfolio data found');
+            }
+        }
+
+        async function refreshData() {
+            location.reload(); // Simple refresh for now
+        }
+
+        // Alias for backward compatibility
+        function loadDashboardData() {
+            loadData();
+        }
 
         // Chart.js default configuration
         Chart.defaults.color = '#8892b0';
@@ -864,71 +1221,59 @@
             try {
                 document.getElementById('last-updated').textContent = 'Loading data...';
                 
-                // Load data from the new generate_datasets.py script
-                console.log('Loading portfolio analysis...');
-                let reportResponse;
+                // Load data from PostgreSQL API
+                console.log('Loading portfolio data from database...');
+                
                 try {
-                    reportResponse = await fetch(`./output/portfolio_summary.json?t=${Date.now()}`);
-                    if (reportResponse.ok) {
-                        portfolioData = await reportResponse.json();
-                        masterData = portfolioData;  // Set global masterData to full data structure
-                        console.log('Portfolio summary data loaded:', portfolioData);
-                        console.log('Master data structure:', masterData);
-                        console.log('Detailed summaries:', portfolioData.detailed_summaries);
+                    // Get portfolio data for current user
+                    const portfolioResponse = await fetch(`/api/portfolio/${currentUserId}`);
+                    if (portfolioResponse.ok) {
+                        portfolioData = await portfolioResponse.json();
+                        masterData = portfolioData;
+                        console.log('Portfolio data loaded from database:', portfolioData);
+                        
+                        // Load transactions data
+                        const transactionsResponse = await fetch(`/api/transactions/${currentUserId}`);
+                        if (transactionsResponse.ok) {
+                            const transactionsData = await transactionsResponse.json();
+                            
+                            // Organize transactions by type for compatibility
+                            const organizedTransactions = {
+                                buys: transactionsData.transactions.filter(t => t.type === 'buy'),
+                                sells: transactionsData.transactions.filter(t => t.type === 'sell'),
+                                dividends: transactionsData.transactions.filter(t => t.type === 'dividend'),
+                                deposits: transactionsData.transactions.filter(t => t.type === 'deposit'),
+                                fees: transactionsData.transactions.filter(t => t.type === 'fee')
+                            };
+                            
+                            // Store in global variables for compatibility
+                            buysData = organizedTransactions.buys;
+                            sellsData = organizedTransactions.sells;
+                            dividendsData = organizedTransactions.dividends;
+                            
+                            console.log('Transactions loaded:', organizedTransactions);
+                        }
+                        
+                    } else if (portfolioResponse.status === 404) {
+                        // No data found - show upload interface
+                        console.log('No portfolio data found - showing upload interface');
+                        document.getElementById('uploadSection').style.display = 'block';
+                        document.getElementById('portfolioStatus').style.display = 'none';
+                        document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
+                        return; // Don't try to render charts
                     } else {
-                        throw new Error('Portfolio summary not available - run generate_datasets.py first');
+                        throw new Error('Failed to load portfolio data');
                     }
                 } catch (error) {
-                    console.log('Portfolio summary not available, trying fallback:', error.message);
-                    try {
-                        reportResponse = await fetch('./output/master_portfolio_data.json');
-                        if (reportResponse.ok) {
-                            portfolioData = await reportResponse.json();
-                            masterData = portfolioData;
-                            console.log('Fallback to master data loaded:', portfolioData);
-                        } else {
-                            throw new Error('No valid portfolio data found');
-                        }
-                    } catch (fallbackError) {
-                        console.log('Master data not available, trying enhanced analysis:', fallbackError.message);
-                        reportResponse = await fetch('./output/enhanced_portfolio_analysis.json');
-                        if (!reportResponse.ok) {
-                            throw new Error(`Failed to load any analysis report. Please run generate_datasets.py first.`);
-                        }
-                        portfolioData = await reportResponse.json();
-                        masterData = portfolioData.portfolio_overview || portfolioData;
-                        console.log('Enhanced portfolio data loaded as last fallback:', portfolioData);
-                    }
+                    console.error('Error loading data from database:', error);
+                    // Show upload interface if no data is available
+                    document.getElementById('uploadSection').style.display = 'block';
+                    document.getElementById('portfolioStatus').style.display = 'none';
+                    document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
+                    return;
                 }
 
-                // Load CSV files
-                console.log('Loading CSV files...');
-                const [dividendsResponse, buysResponse, sellsResponse] = await Promise.all([
-                    fetch('./output/degiro_dividends.csv').then(r => {
-                        if (!r.ok) throw new Error(`Failed to load dividends: ${r.status}`);
-                        return r;
-                    }),
-                    fetch('./output/degiro_buys.csv').then(r => {
-                        if (!r.ok) throw new Error(`Failed to load buys: ${r.status}`);
-                        return r;
-                    }),
-                    fetch('./output/degiro_sells.csv').then(r => {
-                        if (!r.ok) throw new Error(`Failed to load sells: ${r.status}`);
-                        return r;
-                    })
-                ]);
-
-                dividendsData = parseCSV(await dividendsResponse.text());
-                buysData = parseCSV(await buysResponse.text());
-                sellsData = parseCSV(await sellsResponse.text());
-
-                console.log('Data loaded successfully:', {
-                    dividends: dividendsData.length,
-                    buys: buysData.length,
-                    sells: sellsData.length
-                });
-
-                // Initialize dashboard
+                // Initialize dashboard with loaded data
                 initializeDashboard();
                 
             } catch (error) {
@@ -2155,7 +2500,7 @@
 
         // Stock Analysis Functions (Using SQLite Cache)
         let stockAnalysisChart = null;
-        const STOCK_API_BASE = 'http://localhost:8001';
+        const STOCK_API_BASE = window.location.origin; // Use same origin for PostgreSQL API
 
         let currentStock = null;
         let currentTimeRange = 'YTD';
@@ -2203,7 +2548,7 @@
         }
 
         function loadAvailableStocks() {
-            fetch(`${STOCK_API_BASE}/available-stocks`)
+            fetch(`${STOCK_API_BASE}/api/available-stocks/${currentUserId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -2211,12 +2556,12 @@
                     return response.json();
                 })
                 .then(stocks => {
-                    console.log('Available stocks loaded from cache:', stocks.length);
+                    console.log('Available stocks loaded from database:', stocks.length);
                     populateStockDropdown(stocks);
                 })
                 .catch(error => {
                     console.error('Error loading available stocks:', error);
-                    showStockError('Unable to load available stocks. Make sure the stock API server is running on port 8001.');
+                    showStockError('Unable to load available stocks. Upload your DeGiro data first.');
                 });
         }
 
@@ -2240,12 +2585,12 @@
         }
 
         function loadStockAnalysis(symbol, timeRange = '5Y') {
-            console.log(`Loading cached analysis for ${symbol} (${timeRange})`);
+            console.log(`Loading database analysis for ${symbol} (${timeRange})`);
             
             // Show loading indicator
             document.getElementById('stockAnalysisLoading').style.display = 'block';
             
-            fetch(`${STOCK_API_BASE}/stock-analysis/${symbol}?range_type=${timeRange}`)
+            fetch(`${STOCK_API_BASE}/api/stock-analysis/${currentUserId}/${symbol}?range_type=${timeRange}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -2253,7 +2598,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log(`Stock analysis data loaded from cache (${timeRange}):`, data);
+                    console.log(`Stock analysis data loaded from database (${timeRange}):`, data);
                     console.log('Price data points:', data.price_data?.length);
                     console.log('Transactions:', data.transactions?.length);
                     console.log('Date range:', data.data_range);
@@ -2261,7 +2606,7 @@
                 })
                 .catch(error => {
                     console.error(`Error loading analysis for ${symbol}:`, error);
-                    showStockError(`Unable to load cached data for ${symbol} (${timeRange}). ${error.message}`);
+                    showStockError(`Unable to load data for ${symbol} (${timeRange}). ${error.message}`);
                 })
                 .finally(() => {
                     // Hide loading indicator
@@ -2495,7 +2840,10 @@
         }
 
         // Initialize the dashboard when page loads
-        document.addEventListener('DOMContentLoaded', loadData);
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUpload();
+            loadData();
+        });
     </script>
 </body>
 </html>
