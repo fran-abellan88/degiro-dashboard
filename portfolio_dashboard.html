@@ -1285,23 +1285,23 @@
                     
                     if (transactionsResponse.ok) {
                         transactionsData = await transactionsResponse.json();
-                            console.log('Transactions data loaded:', transactionsData);
-                            
-                            // Organize transactions by type for compatibility
-                            const organizedTransactions = {
-                                buys: transactionsData.transactions.filter(t => t.type === 'buy'),
-                                sells: transactionsData.transactions.filter(t => t.type === 'sell'),
-                                dividends: transactionsData.transactions.filter(t => t.type === 'dividend'),
-                                deposits: transactionsData.transactions.filter(t => t.type === 'deposit'),
-                                fees: transactionsData.transactions.filter(t => t.type === 'fee')
-                            };
-                            
-                            // Store in global variables for compatibility
-                            buysData = organizedTransactions.buys;
-                            sellsData = organizedTransactions.sells;
-                            dividendsData = organizedTransactions.dividends;
-                            
-                            console.log('Transactions loaded:', organizedTransactions);
+                        console.log('Transactions data loaded:', transactionsData);
+                        
+                        // Organize transactions by type for compatibility
+                        const organizedTransactions = {
+                            buys: transactionsData.transactions.filter(t => t.type === 'buy'),
+                            sells: transactionsData.transactions.filter(t => t.type === 'sell'),
+                            dividends: transactionsData.transactions.filter(t => t.type === 'dividend'),
+                            deposits: transactionsData.transactions.filter(t => t.type === 'deposit'),
+                            fees: transactionsData.transactions.filter(t => t.type === 'fee')
+                        };
+                        
+                        // Store in global variables for compatibility
+                        buysData = organizedTransactions.buys;
+                        sellsData = organizedTransactions.sells;
+                        dividendsData = organizedTransactions.dividends;
+                        
+                        console.log('Transactions loaded:', organizedTransactions);
                         } else {
                             const errorText = await transactionsResponse.text();
                             console.error(`Failed to load transactions: ${transactionsResponse.status} - ${errorText}`);
