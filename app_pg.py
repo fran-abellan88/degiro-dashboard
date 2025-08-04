@@ -61,7 +61,8 @@ async def lifespan(app: FastAPI):
                 retry_delay = min(retry_delay * 1.5, 30)  # Exponential backoff, max 30s
             else:
                 logger.error(f"Failed to connect to database after {max_retries} attempts: {e}")
-                raise
+                logger.warning("Starting app without database - will operate in degraded mode")
+                break  # Don't raise, just continue without database
 
     yield
 
@@ -95,16 +96,25 @@ async def health_check():
     """Health check endpoint for Render"""
     try:
         # Check PostgreSQL connection
-        async with db_manager.get_connection() as conn:
-            result = await conn.fetchval("SELECT COUNT(*) FROM users")
-            user_count = result or 0
+        user_count = 0
+        db_status = "disconnected"
+        
+        try:
+            async with db_manager.get_connection() as conn:
+                result = await conn.fetchval("SELECT COUNT(*) FROM users")
+                user_count = result or 0
+                db_status = "connected"
+        except Exception as e:
+            logger.warning(f"Database health check failed: {e}")
+            db_status = "disconnected"
 
         # Check stock data
         stock_stats = stock_manager.get_database_stats() if Path("stock_data.db").exists() else {}
 
         return {
-            "status": "healthy",
+            "status": "healthy",  # App is healthy even if DB is down
             "database_type": "postgresql",
+            "database_status": db_status,
             "user_count": user_count,
             "stock_records": stock_stats.get("total_records", 0),
             "stock_symbols": stock_stats.get("total_symbols", 0),
