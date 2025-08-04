@@ -1332,9 +1332,9 @@
                 document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
                 return;
             }
-
+            
         } catch (error) {
-                console.error('Error loading data:', error);
+            console.error('Error loading data:', error);
                 document.getElementById('last-updated').innerHTML = `
                     <span style="color: var(--red-accent)">
                         <i class="fas fa-exclamation-triangle"></i>
