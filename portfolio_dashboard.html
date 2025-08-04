@@ -988,11 +988,30 @@
         let dividendsData = null;
         let buysData = null;
         let sellsData = null;
-        let currentUserId = generateUserId(); // Generate unique user ID
+        let currentUserId = getUserId(); // Get or generate unique user ID
+
+        // Get or generate a unique user ID for this session (persistent)
+        function getUserId() {
+            let userId = localStorage.getItem('degiro_user_id');
+            if (!userId) {
+                userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('degiro_user_id', userId);
+                console.log('Generated new user ID:', userId);
+            } else {
+                console.log('Using existing user ID:', userId);
+            }
+            return userId;
+        }
 
         // Generate a unique user ID for this session
         function generateUserId() {
             return 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        }
+        
+        // Clear user data (for testing)
+        function clearUserData() {
+            localStorage.removeItem('degiro_user_id');
+            location.reload();
         }
 
         // File Upload Functionality
