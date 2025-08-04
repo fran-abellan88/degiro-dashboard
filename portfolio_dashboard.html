@@ -1225,17 +1225,30 @@
                 console.log('Loading portfolio data from database...');
                 
                 try {
+                    let transactionsData = null;
+                    
                     // Get portfolio data for current user
+                    console.log(`Fetching portfolio data for user: ${currentUserId}`);
                     const portfolioResponse = await fetch(`/api/portfolio/${currentUserId}`);
+                    console.log(`Portfolio response status: ${portfolioResponse.status}`);
+                    
                     if (portfolioResponse.ok) {
                         portfolioData = await portfolioResponse.json();
                         masterData = portfolioData;
                         console.log('Portfolio data loaded from database:', portfolioData);
+                    } else {
+                        const errorText = await portfolioResponse.text();
+                        console.error(`Failed to load portfolio data: ${portfolioResponse.status} - ${errorText}`);
+                    }
                         
-                        // Load transactions data
-                        const transactionsResponse = await fetch(`/api/transactions/${currentUserId}`);
-                        if (transactionsResponse.ok) {
-                            const transactionsData = await transactionsResponse.json();
+                    // Load transactions data
+                    console.log(`Fetching transactions data for user: ${currentUserId}`);
+                    const transactionsResponse = await fetch(`/api/transactions/${currentUserId}`);
+                    console.log(`Transactions response status: ${transactionsResponse.status}`);
+                    
+                    if (transactionsResponse.ok) {
+                        transactionsData = await transactionsResponse.json();
+                            console.log('Transactions data loaded:', transactionsData);
                             
                             // Organize transactions by type for compatibility
                             const organizedTransactions = {
@@ -1252,9 +1265,24 @@
                             dividendsData = organizedTransactions.dividends;
                             
                             console.log('Transactions loaded:', organizedTransactions);
+                        } else {
+                            const errorText = await transactionsResponse.text();
+                            console.error(`Failed to load transactions: ${transactionsResponse.status} - ${errorText}`);
                         }
                         
-                    } else if (portfolioResponse.status === 404) {
+                } catch (dbError) {
+                    console.error('Database API error:', dbError);
+                    // Try to continue with what we have
+                }
+                
+                // Check if we have any data to display
+                if (!portfolioData && (!transactionsData || !transactionsData.transactions || transactionsData.transactions.length === 0)) {
+                    console.log('No data available - showing upload interface');
+                    document.getElementById('uploadSection').style.display = 'block';
+                    document.getElementById('portfolioStatus').style.display = 'none';
+                    document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
+                    return;
+                } else if (false) { // Disabled the old 404 check
                         // No data found - show upload interface
                         console.log('No portfolio data found - showing upload interface');
                         document.getElementById('uploadSection').style.display = 'block';
