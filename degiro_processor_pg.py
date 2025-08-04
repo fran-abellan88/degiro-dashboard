@@ -33,6 +33,9 @@ class DeGiroProcessorPG:
             from io import StringIO
 
             df = pd.read_csv(StringIO(csv_content))
+            
+            # Debug: Log column names
+            logger.info(f"CSV columns found: {list(df.columns)}")
 
             # Drop unnecessary columns
             cols_to_drop = ["Fecha valor", "ID Orden", "Tipo"]
@@ -40,22 +43,53 @@ class DeGiroProcessorPG:
             if columns_to_drop:
                 df.drop(columns=columns_to_drop, inplace=True)
 
-            # Clean data
-            df.dropna(subset=["Fecha"], inplace=True)
-            df["Fecha"] = pd.to_datetime(df["Fecha"], dayfirst=True)
-            df["year_month"] = df["Fecha"].dt.strftime("%Y-%m")
-            df["year"] = df.Fecha.dt.year
+            # Flexible column mapping - handle different CSV formats
+            column_mapping = {}
+            
+            # Date column
+            date_cols = ["Fecha", "Date", "date"]
+            for col in date_cols:
+                if col in df.columns:
+                    column_mapping[col] = "date"
+                    break
+                    
+            # Product column  
+            product_cols = ["Producto", "Product", "product"]
+            for col in product_cols:
+                if col in df.columns:
+                    column_mapping[col] = "product"
+                    break
+                    
+            # Description column
+            desc_cols = ["Descripción", "Description", "description", "Descripcion"]
+            for col in desc_cols:
+                if col in df.columns:
+                    column_mapping[col] = "original_description"  
+                    break
+                    
+            # Amount column
+            amount_cols = ["Cambio", "Change", "amount", "Amount", "amount_EUR", "Amount EUR"]
+            for col in amount_cols:
+                if col in df.columns:
+                    column_mapping[col] = "amount_EUR"
+                    break
+                    
+            # Balance column
+            balance_cols = ["Saldo EUR", "Balance EUR", "balance", "Balance", "balance_EUR"]
+            for col in balance_cols:
+                if col in df.columns:
+                    column_mapping[col] = "balance_EUR"
+                    break
+            
+            logger.info(f"Column mapping applied: {column_mapping}")
+            df = df.rename(columns=column_mapping)
 
-            # Rename columns to English
-            df = df.rename(
-                columns={
-                    "Fecha": "date",
-                    "Producto": "product",
-                    "Descripción": "original_description",
-                    "Cambio": "amount_EUR",
-                    "Saldo EUR": "balance_EUR",
-                }
-            )
+            # Clean data - now that columns are renamed
+            if 'date' in df.columns:
+                df.dropna(subset=["date"], inplace=True)
+                df["date"] = pd.to_datetime(df["date"], dayfirst=True)
+                df["year_month"] = df["date"].dt.strftime("%Y-%m")
+                df["year"] = df["date"].dt.year
 
             # Clean product names and extract ISIN
             df["ISIN"] = df["product"].str.extract(r"\(([A-Z]{2}[A-Z0-9]{9}[0-9])\)")
