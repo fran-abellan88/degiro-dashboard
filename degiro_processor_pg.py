@@ -111,9 +111,9 @@ class DeGiroProcessorPG:
         }
 
         # Define patterns for each category
-        buy_patterns = [r"compra.*@.*", r"buy.*@.*", r"escisión.*compra.*@.*"]
+        buy_patterns = [r"compra", r"buy", r"escisión.*compra"]
 
-        sell_patterns = [r"venta.*@.*", r"sell.*@.*"]
+        sell_patterns = [r"venta", r"sell"]
 
         dividend_patterns = [r"dividend", r"dividendo", r"div\.", r"distribution"]
 
@@ -152,16 +152,21 @@ class DeGiroProcessorPG:
         """Process buy/sell transactions to extract shares and price"""
         df = df.copy()
 
-        # Extract shares and price from description
-        # Pattern: "Compra 10 APPLE@150.25 USD"
-        pattern = r"(\d+(?:\.\d+)?)\s+.*?@(\d+(?:\.\d+)?)"
-
-        shares_prices = df["original_description"].str.extract(pattern)
-        df["shares"] = pd.to_numeric(shares_prices[0], errors="coerce").fillna(0).astype(int)
-        df["price"] = pd.to_numeric(shares_prices[1], errors="coerce").fillna(0.0)
+        # Extract shares from description
+        # Pattern: "Compra 4 Procte" or "compra 1 united"
+        shares_pattern = r"(?:compra|buy|venta|sell)\s+(\d+)"
+        
+        shares_match = df["original_description"].str.extract(shares_pattern, flags=re.IGNORECASE)
+        df["shares"] = pd.to_numeric(shares_match[0], errors="coerce").fillna(0).astype(int)
+        
+        # Calculate price from amount and shares (amount_EUR / shares)
+        df["price"] = 0.0
+        valid_shares_mask = df["shares"] > 0
+        if valid_shares_mask.any():
+            df.loc[valid_shares_mask, "price"] = abs(df.loc[valid_shares_mask, "amount_EUR"]) / df.loc[valid_shares_mask, "shares"]
 
         # Add validation
-        df["is_valid"] = (df["shares"] > 0) & (df["price"] > 0)
+        df["is_valid"] = (df["shares"] > 0) & (abs(df["amount_EUR"]) > 0)
 
         # Add category
         df["category"] = trade_type.rstrip("s")  # 'buys' -> 'buy', 'sells' -> 'sell'
@@ -232,12 +237,35 @@ class DeGiroProcessorPG:
 
         # Get all unique ISINs from buy transactions
         if not transactions["buys"].empty:
+            buys_df = transactions["buys"].copy()
+            
+            # Extract ISIN from description if ISIN column is empty
+            if buys_df["ISIN"].isnull().all():
+                # Pattern: "....(US1234567890)" - ISIN in parentheses
+                isin_pattern = r"\(([A-Z]{2}[A-Z0-9]{10})\)"
+                buys_df["ISIN"] = buys_df["original_description"].str.extract(isin_pattern)[0]
+                logger.info(f"Extracted ISIN from descriptions: {buys_df['ISIN'].notna().sum()} valid ISINs found")
+            
+            # Group by ISIN and product (skip rows without ISIN)
+            valid_buys = buys_df[buys_df["ISIN"].notna()]
+            
+            if valid_buys.empty:
+                logger.warning("No valid buys with ISIN found")
+                return pd.DataFrame()
+            
+            # Group by ISIN only to avoid duplicates (same ISIN can have different product names)
             unique_holdings = (
-                transactions["buys"]
-                .groupby(["ISIN", "product"])
-                .agg({"shares": "sum", "amount_EUR": "sum"})
+                valid_buys
+                .groupby(["ISIN"])
+                .agg({
+                    "shares": "sum", 
+                    "amount_EUR": "sum",
+                    "product": "first"  # Take first product name for the ISIN
+                })
                 .reset_index()
             )
+            
+            logger.info(f"Grouped holdings: {len(unique_holdings)} unique ISINs")
 
             # Subtract sells
             if not transactions["sells"].empty:

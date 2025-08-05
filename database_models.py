@@ -324,6 +324,30 @@ class DatabaseManager:
                 row = await conn.fetchrow("SELECT * FROM users WHERE user_id = $1", user_id)
                 return dict(row)
 
+    async def get_all_users(self) -> List[Dict]:
+        """Get all users"""
+        async with self.get_connection() as conn:
+            rows = await conn.fetch("SELECT * FROM users ORDER BY created_at DESC")
+            return [dict(row) for row in rows]
+
+    async def get_user_raw_data(self, user_id: str) -> List[Dict]:
+        """Get raw CSV data for a user"""
+        async with self.get_connection() as conn:
+            rows = await conn.fetch(
+                """
+                SELECT * FROM degiro_raw_data 
+                WHERE user_id = $1 
+                ORDER BY upload_timestamp DESC
+            """,
+                user_id,
+            )
+            return [dict(row) for row in rows]
+
+    async def clear_user_holdings(self, user_id: str):
+        """Clear all holdings for a user"""
+        async with self.get_connection() as conn:
+            await conn.execute("DELETE FROM holdings WHERE user_id = $1", user_id)
+
 
 # Global database manager instance
 db_manager = DatabaseManager()
