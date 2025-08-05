@@ -7,6 +7,7 @@ View tables, data, and database structure
 import asyncio
 import json
 import logging
+import os
 from datetime import datetime
 
 import asyncpg
@@ -15,8 +16,12 @@ import asyncpg
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Render database connection string
-DATABASE_URL = "postgresql://degiro_user:YlkhxaOEmwJZTVn42necg4p1fsljD7u8@dpg-d28c8vbipnbc739jbkr0-a.oregon-postgres.render.com/degiro_dashboard"
+# Database connection from environment variable
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if not DATABASE_URL:
+    logger.error("DATABASE_URL environment variable is required!")
+    exit(1)
 
 
 async def inspect_database():
