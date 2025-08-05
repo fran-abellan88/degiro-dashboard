@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeGiro Portfolio Analytics - Investment Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -115,12 +117,30 @@
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-        .grid-6 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-        .grid-7 { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-        .grid-8 { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .grid-6 {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .grid-7 {
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        }
+
+        .grid-8 {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
 
         /* Cards */
         .card {
@@ -187,14 +207,14 @@
             border-radius: 20px;
         }
 
-        .positive { 
-            background: rgba(16, 185, 129, 0.1); 
-            color: var(--green-accent); 
+        .positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green-accent);
         }
-        
-        .negative { 
-            background: rgba(239, 68, 68, 0.1); 
-            color: var(--red-accent); 
+
+        .negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red-accent);
         }
 
         /* Chart Cards */
@@ -269,8 +289,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive */
@@ -278,11 +303,16 @@
             .container {
                 padding: 0 1rem;
             }
-            
-            .grid-2, .grid-3, .grid-4, .grid-6, .grid-7, .grid-8 {
+
+            .grid-2,
+            .grid-3,
+            .grid-4,
+            .grid-6,
+            .grid-7,
+            .grid-8 {
                 grid-template-columns: 1fr;
             }
-            
+
             .metric-value {
                 font-size: 2rem;
             }
@@ -294,10 +324,21 @@
         }
 
         /* Custom colors for different chart types */
-        .investment-gradient { background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink)); }
-        .dividend-gradient { background: linear-gradient(135deg, var(--green-accent), #22c55e); }
-        .returns-gradient { background: linear-gradient(135deg, var(--primary-orange), #fbbf24); }
-        .portfolio-gradient { background: linear-gradient(135deg, var(--primary-pink), #f97316); }
+        .investment-gradient {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+        }
+
+        .dividend-gradient {
+            background: linear-gradient(135deg, var(--green-accent), #22c55e);
+        }
+
+        .returns-gradient {
+            background: linear-gradient(135deg, var(--primary-orange), #fbbf24);
+        }
+
+        .portfolio-gradient {
+            background: linear-gradient(135deg, var(--primary-pink), #f97316);
+        }
 
         /* Product Analysis Styles */
         #productSelect:focus {
@@ -550,9 +591,9 @@
             background: rgba(100, 181, 246, 0.8);
             transform: translateY(-1px);
         }
-
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="container">
@@ -590,7 +631,8 @@
                 <div class="upload-content">
                     <i class="fas fa-file-csv upload-icon"></i>
                     <h4>Drag & Drop your DeGiro CSV file here</h4>
-                    <p>or <button class="upload-button" type="button" onclick="document.getElementById('fileInput').click()">browse files</button></p>
+                    <p>or <button class="upload-button" type="button"
+                            onclick="document.getElementById('fileInput').click()">browse files</button></p>
                     <input type="file" id="fileInput" accept=".csv" style="display: none;">
                     <div class="upload-info">
                         <small>
@@ -642,7 +684,7 @@
             <i class="fas fa-tachometer-alt"></i>
             Portfolio Overview
         </h2>
-        
+
         <div class="grid grid-8" id="kpi-grid">
             <div class="card metric-card">
                 <div class="metric-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
@@ -722,7 +764,7 @@
             <i class="fas fa-chart-area"></i>
             Performance Analytics
         </h2>
-        
+
         <div class="grid grid-2">
             <div class="card chart-card">
                 <div class="chart-header">
@@ -785,7 +827,7 @@
             <i class="fas fa-search"></i>
             Product Analysis
         </h2>
-        
+
         <div class="grid grid-1" style="grid-template-columns: 1fr;">
             <div class="card">
                 <div class="chart-header">
@@ -794,11 +836,12 @@
                         <p class="chart-subtitle">Select a product to view its dividend payments by year-month</p>
                     </div>
                 </div>
-                
+
                 <div style="margin-bottom: 2rem;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div>
-                            <label for="productSelect" style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">
+                            <label for="productSelect"
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">
                                 Select Product:
                             </label>
                             <select id="productSelect" style="
@@ -815,7 +858,8 @@
                             </select>
                         </div>
                         <div>
-                            <label for="yearSelect" style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">
+                            <label for="yearSelect"
+                                style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">
                                 Select Year:
                             </label>
                             <select id="yearSelect" style="
@@ -833,10 +877,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="dividendTableContainer" style="display: none;">
                     <h4 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.1rem;">
-                        Net Dividend History for <span id="selectedProductName" style="color: var(--primary-blue);"></span>
+                        Net Dividend History for <span id="selectedProductName"
+                            style="color: var(--primary-blue);"></span>
                     </h4>
                     <div style="overflow-x: auto;">
                         <table id="dividendTable" style="
@@ -848,10 +893,18 @@
                         ">
                             <thead>
                                 <tr style="background: rgba(100, 181, 246, 0.1);">
-                                    <th style="padding: 1rem; text-align: left; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">Year-Month</th>
-                                    <th style="padding: 1rem; text-align: right; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">Net Dividend Amount (EUR)</th>
-                                    <th style="padding: 1rem; text-align: center; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">Status</th>
-                                    <th style="padding: 1rem; text-align: center; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">Transactions</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">
+                                        Year-Month</th>
+                                    <th
+                                        style="padding: 1rem; text-align: right; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">
+                                        Net Dividend Amount (EUR)</th>
+                                    <th
+                                        style="padding: 1rem; text-align: center; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">
+                                        Status</th>
+                                    <th
+                                        style="padding: 1rem; text-align: center; color: var(--text-primary); font-weight: 600; border-bottom: 1px solid var(--card-border);">
+                                        Transactions</th>
                                 </tr>
                             </thead>
                             <tbody id="dividendTableBody">
@@ -865,22 +918,30 @@
                         border-radius: 8px; 
                         border-left: 4px solid var(--primary-blue);
                     ">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             <div>
-                                <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Net Dividends</div>
-                                <div id="totalDividends" style="color: var(--primary-blue); font-size: 1.25rem; font-weight: 600;">€0.00</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Net Dividends
+                                </div>
+                                <div id="totalDividends"
+                                    style="color: var(--primary-blue); font-size: 1.25rem; font-weight: 600;">€0.00
+                                </div>
                             </div>
                             <div>
                                 <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Transactions</div>
-                                <div id="totalTransactions" style="color: var(--text-primary); font-size: 1.25rem; font-weight: 600;">0</div>
+                                <div id="totalTransactions"
+                                    style="color: var(--text-primary); font-size: 1.25rem; font-weight: 600;">0</div>
                             </div>
                             <div>
                                 <div style="color: var(--text-secondary); font-size: 0.875rem;">Active Months</div>
-                                <div id="activeMonths" style="color: var(--text-primary); font-size: 1.25rem; font-weight: 600;">0</div>
+                                <div id="activeMonths"
+                                    style="color: var(--text-primary); font-size: 1.25rem; font-weight: 600;">0</div>
                             </div>
                             <div>
                                 <div style="color: var(--text-secondary); font-size: 0.875rem;">Average per Month</div>
-                                <div id="averagePerMonth" style="color: var(--green-accent); font-size: 1.25rem; font-weight: 600;">€0.00</div>
+                                <div id="averagePerMonth"
+                                    style="color: var(--green-accent); font-size: 1.25rem; font-weight: 600;">€0.00
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -893,7 +954,7 @@
             <i class="fas fa-analytics"></i>
             Detailed Analytics
         </h2>
-        
+
         <div class="grid grid-2">
             <div class="card chart-card">
                 <div class="chart-header">
@@ -931,15 +992,17 @@
                 ⚡ Powered by cached data
             </span>
         </h2>
-        
+
         <div class="grid grid-1" style="grid-template-columns: 1fr;">
             <div class="card chart-card">
                 <div class="chart-header">
                     <div>
                         <h3 class="chart-title">Stock Price History & Transactions</h3>
-                        <p class="chart-subtitle">Historical price data since 2015 with your buy/sell operations (cached data)</p>
+                        <p class="chart-subtitle">Historical price data since 2015 with your buy/sell operations (cached
+                            data)</p>
                     </div>
-                    <div class="chart-controls" style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-end;">
+                    <div class="chart-controls"
+                        style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-end;">
                         <select id="stockSelector" style="
                             background: var(--card-bg);
                             border: 1px solid var(--card-border);
@@ -951,7 +1014,7 @@
                         ">
                             <option value="">Select a stock...</option>
                         </select>
-                        
+
                         <div id="timeRangeButtons" style="display: none; gap: 0.5rem;">
                             <button class="time-range-btn active" data-range="YTD">YTD</button>
                             <button class="time-range-btn" data-range="6M">6M</button>
@@ -1007,7 +1070,7 @@
         function generateUserId() {
             return 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
         }
-        
+
         // Clear user data (for testing)
         function clearUserData() {
             localStorage.removeItem('degiro_user_id');
@@ -1089,11 +1152,11 @@
                         Upload successful! Processed ${result.transactions_count} transactions 
                         and ${result.holdings_count} holdings.
                     `, 'success');
-                    
+
                     // Hide upload section and show status
                     document.getElementById('uploadSection').style.display = 'none';
                     updatePortfolioStatus(result);
-                    
+
                     // Reload the dashboard data
                     loadDashboardData();
                 }, 1000);
@@ -1132,11 +1195,11 @@
                 console.log('Checking portfolio status for user:', currentUserId);
                 const response = await fetch(`/api/portfolio-status/${currentUserId}`);
                 console.log('Portfolio status response:', response.status);
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Portfolio status data:', data);
-                    
+
                     if (data.has_data) {
                         console.log('Data found, loading dashboard...');
                         document.getElementById('uploadSection').style.display = 'none';
@@ -1193,15 +1256,15 @@
         function parseCSV(csvText) {
             const lines = csvText.trim().split('\n');
             if (lines.length < 2) return [];
-            
+
             const headers = lines[0].split(',');
-            
+
             return lines.slice(1).map(line => {
                 // Handle commas within quoted fields
                 const values = [];
                 let current = '';
                 let inQuotes = false;
-                
+
                 for (let i = 0; i < line.length; i++) {
                     const char = line[i];
                     if (char === '"') {
@@ -1214,12 +1277,12 @@
                     }
                 }
                 values.push(current.trim());
-                
+
                 const obj = {};
                 headers.forEach((header, index) => {
                     let value = values[index] || '';
                     value = value.replace(/^"(.*)"$/, '$1'); // Remove quotes
-                    
+
                     // Parse dates - handle both old and new formats
                     if ((header === 'Date' || header === 'date') && value) {
                         obj.Date = new Date(value); // Normalize to Date for compatibility
@@ -1257,18 +1320,18 @@
         async function loadData() {
             try {
                 document.getElementById('last-updated').textContent = 'Loading data...';
-                
+
                 // Load data from PostgreSQL API
                 console.log('Loading portfolio data from database...');
-                
+
                 try {
                     let transactionsData = null;
-                    
+
                     // Get portfolio data for current user
                     console.log(`Fetching portfolio data for user: ${currentUserId}`);
                     const portfolioResponse = await fetch(`/api/portfolio/${currentUserId}`);
                     console.log(`Portfolio response status: ${portfolioResponse.status}`);
-                    
+
                     if (portfolioResponse.ok) {
                         portfolioData = await portfolioResponse.json();
                         masterData = portfolioData;
@@ -1277,16 +1340,16 @@
                         const errorText = await portfolioResponse.text();
                         console.error(`Failed to load portfolio data: ${portfolioResponse.status} - ${errorText}`);
                     }
-                        
+
                     // Load transactions data
                     console.log(`Fetching transactions data for user: ${currentUserId}`);
                     const transactionsResponse = await fetch(`/api/transactions/${currentUserId}`);
                     console.log(`Transactions response status: ${transactionsResponse.status}`);
-                    
+
                     if (transactionsResponse.ok) {
                         transactionsData = await transactionsResponse.json();
                         console.log('Transactions data loaded:', transactionsData);
-                        
+
                         // Organize transactions by type for compatibility
                         const organizedTransactions = {
                             buys: transactionsData.transactions.filter(t => t.type === 'buy'),
@@ -1295,23 +1358,23 @@
                             deposits: transactionsData.transactions.filter(t => t.type === 'deposit'),
                             fees: transactionsData.transactions.filter(t => t.type === 'fee')
                         };
-                        
+
                         // Store in global variables for compatibility
                         buysData = organizedTransactions.buys;
                         sellsData = organizedTransactions.sells;
                         dividendsData = organizedTransactions.dividends;
-                        
+
                         console.log('Transactions loaded:', organizedTransactions);
-                        } else {
-                            const errorText = await transactionsResponse.text();
-                            console.error(`Failed to load transactions: ${transactionsResponse.status} - ${errorText}`);
-                        }
-                        
+                    } else {
+                        const errorText = await transactionsResponse.text();
+                        console.error(`Failed to load transactions: ${transactionsResponse.status} - ${errorText}`);
+                    }
+
                 } catch (dbError) {
                     console.error('Database API error:', dbError);
                     // Try to continue with what we have
                 }
-                
+
                 // Check if we have any data to display
                 if (!portfolioData && (!transactionsData || !transactionsData.transactions || transactionsData.transactions.length === 0)) {
                     console.log('No data available - showing upload interface');
@@ -1320,10 +1383,10 @@
                     document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
                     return;
                 }
-                
+
                 // Initialize dashboard with loaded data
                 initializeDashboard();
-                
+
             } catch (dbError) {
                 console.error('Error loading data from database:', dbError);
                 // Show upload interface if no data is available
@@ -1332,21 +1395,12 @@
                 document.getElementById('last-updated').textContent = 'Upload your DeGiro data to get started';
                 return;
             }
-            
-        } catch (error) {
-            console.error('Error loading data:', error);
-                document.getElementById('last-updated').innerHTML = `
-                    <span style="color: var(--red-accent)">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Error loading data: ${error.message}
-                    </span>
-                `;
-                
-                // Show helpful message
-                const container = document.querySelector('main.container');
-                container.innerHTML = `
-                    <div class="card" style="text-align: center; margin: 2rem 0;">
-                        <div style="color: var(--red-accent); font-size: 3rem; margin-bottom: 1rem;">
+
+            // Show helpful message
+            const container = document.querySelector('main.container');
+            container.innerHTML = `
+            <div class="card" style="text-align: center; margin: 2rem 0;">
+                <div style="color: var(--red-accent); font-size: 3rem; margin-bottom: 1rem;">
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         <h2>Unable to Load Portfolio Data</h2>
@@ -1371,19 +1425,19 @@
                         </div>
                     </div>
                 `;
-            }
         }
+
 
         function initializeDashboard() {
             // Update last updated date
             const dateString = portfolioData.metadata?.calculation_timestamp || portfolioData.analysis_date || new Date().toISOString();
             const analysisDate = new Date(dateString);
-            document.getElementById('last-updated').textContent = 
+            document.getElementById('last-updated').textContent =
                 `Last updated: ${analysisDate.toLocaleDateString()} ${analysisDate.toLocaleTimeString()}`;
 
             // Update KPIs
             updateKPIs();
-            
+
             // Create charts
             createCharts();
         }
@@ -1399,23 +1453,23 @@
                 total_dividends_received_eur: masterData.portfolio_summary?.total_dividends_received || masterData.portfolio_overview?.total_dividends_received_eur || 0,
                 estimated_fees_eur: masterData.portfolio_summary?.total_fees || masterData.portfolio_overview?.estimated_fees_eur || 0,
                 true_total_return_eur: masterData.portfolio_summary?.portfolio_return || masterData.portfolio_overview?.true_total_return_eur || 0,
-                true_return_percentage: masterData.portfolio_summary?.portfolio_return ? 
-                    ((masterData.portfolio_summary.portfolio_return / masterData.portfolio_summary.total_invested) * 100) : 
+                true_return_percentage: masterData.portfolio_summary?.portfolio_return ?
+                    ((masterData.portfolio_summary.portfolio_return / masterData.portfolio_summary.total_invested) * 100) :
                     (masterData.portfolio_overview?.true_return_percentage || 0)
             };
             const hasEnhancedData = overview.true_portfolio_value_eur !== undefined;
-            
+
             // Use total dividends from portfolio analysis (all transactions method)
             const totalDividends = overview.total_dividends_received_eur || 0;
-            
+
             // Total Deposits
             document.getElementById('total-deposits').textContent = formatCurrency(overview.total_deposits_eur);
             const depositUtilization = overview.deposit_utilization_percentage || 0;
             document.getElementById('deposit-utilization').textContent = `${depositUtilization.toFixed(1)}% utilized`;
-            
+
             // Total Invested
             document.getElementById('total-invested').textContent = formatCurrency(overview.total_invested_eur);
-            
+
             // Total Return - use enhanced data if available
             let returnPercent, returnAmount, currentPortfolioValue;
             if (hasEnhancedData) {
@@ -1429,27 +1483,27 @@
                 currentPortfolioValue = overview.net_current_investment_eur;
                 console.log('Using standard portfolio metrics:', { returnPercent, returnAmount, currentPortfolioValue });
             }
-            
+
             document.getElementById('total-return').textContent = formatPercent(returnPercent);
             document.getElementById('return-amount').textContent = formatCurrency(returnAmount);
-            document.getElementById('return-amount').className = 
+            document.getElementById('return-amount').className =
                 `metric-change ${returnPercent >= 0 ? 'positive' : 'negative'}`;
-            
+
             // Total Dividends (using computed total from analysis)
             document.getElementById('total-dividends').textContent = formatCurrency(totalDividends);
             const dividendYield = (totalDividends / overview.total_invested_eur * 100);
             document.getElementById('dividend-yield').textContent = `${dividendYield.toFixed(2)}% yield`;
-            
+
             // Current Cash Balance
             const currentCash = masterData.portfolio_summary?.current_cash_eur || 0;
             document.getElementById('current-cash').textContent = formatCurrency(currentCash);
             const cashPercentage = (currentCash / overview.total_deposits_eur * 100);
             document.getElementById('cash-percentage').textContent = `${cashPercentage.toFixed(1)}% of deposits`;
-            
+
             // Current Portfolio Value - use new portfolio data if available
             const totalPortfolioValue = masterData.portfolio_summary?.total_portfolio_value_eur;
             const currentStockValue = masterData.portfolio_summary?.current_portfolio_value_eur;
-            
+
             if (totalPortfolioValue && currentStockValue !== undefined) {
                 // Use new portfolio value calculation
                 document.getElementById('current-value').textContent = formatCurrency(totalPortfolioValue);
@@ -1464,16 +1518,16 @@
                     document.getElementById('unrealized-gain').textContent = `${formatCurrency(returnAmount)} total return`;
                 }
             }
-            
+
             // Total Fees
             const totalFees = overview.estimated_fees_eur || 653.17; // Use estimated fees
             document.getElementById('total-fees').textContent = formatCurrency(totalFees);
             const feePercentage = (totalFees / currentPortfolioValue * 100);
             document.getElementById('fee-percentage').textContent = `${feePercentage.toFixed(2)}% of portfolio`;
-            
+
             // Load stock count from current stock values
             loadStockCount();
-            
+
             // Add enhanced data indicator if available
             if (hasEnhancedData) {
                 const lastUpdated = document.getElementById('last-updated');
@@ -1486,31 +1540,31 @@
 
         function createCharts() {
             console.log('Creating charts with data:', { portfolioData, masterData });
-            
+
             try { createInvestmentTrendChart(); } catch (e) { console.error('Error in createInvestmentTrendChart:', e); }
             try { createPortfolioCompositionChart(); } catch (e) { console.error('Error in createPortfolioCompositionChart:', e); }
             try { createDividendGrowthChart(); } catch (e) { console.error('Error in createDividendGrowthChart:', e); }
             try { createMonthlyDividendChart(); } catch (e) { console.error('Error in createMonthlyDividendChart:', e); }
             try { createTopDividendStocksChart(); } catch (e) { console.error('Error in createTopDividendStocksChart:', e); }
             try { createCumulativePerformanceChart(); } catch (e) { console.error('Error in createCumulativePerformanceChart:', e); }
-            
+
             console.log('Chart creation completed');
-            
+
             // Initialize product analysis
             initializeProductAnalysis();
-            
+
             // Initialize stock analysis
             initializeStockAnalysis();
-            
+
         }
 
         function createInvestmentTrendChart() {
             const ctx = document.getElementById('investmentTrendChart').getContext('2d');
-            
+
             // Get monthly data from the new architecture
             const monthlyInvestments = masterData?.detailed_summaries?.investments?.investment_by_month || {};
             const monthlyDeposits = masterData?.detailed_summaries?.deposits?.deposit_by_month || {};
-            
+
             // Function to convert month to quarter
             function getQuarter(yearMonth) {
                 const [year, month] = yearMonth.split('-');
@@ -1518,34 +1572,34 @@
                 const quarter = Math.ceil(monthNum / 3);
                 return `${year}-Q${quarter}`;
             }
-            
+
             // Aggregate monthly data into quarters
             const quarterlyInvestments = {};
             const quarterlyDeposits = {};
-            
+
             // Aggregate investments by quarter
             Object.entries(monthlyInvestments).forEach(([month, amount]) => {
                 const quarter = getQuarter(month);
                 quarterlyInvestments[quarter] = (quarterlyInvestments[quarter] || 0) + amount;
             });
-            
+
             // Aggregate deposits by quarter
             Object.entries(monthlyDeposits).forEach(([month, amount]) => {
                 const quarter = getQuarter(month);
                 quarterlyDeposits[quarter] = (quarterlyDeposits[quarter] || 0) + amount;
             });
-            
+
             // Get all unique quarters from both datasets
             const allQuarters = new Set([...Object.keys(quarterlyInvestments), ...Object.keys(quarterlyDeposits)]);
             const sortedQuarters = Array.from(allQuarters).sort();
-            
+
             // Create labels for the chart
             const labels = sortedQuarters.map(quarter => quarter);
-            
+
             // Get amounts for each quarter
             const investmentAmounts = sortedQuarters.map(quarter => quarterlyInvestments[quarter] || 0);
             const depositAmounts = sortedQuarters.map(quarter => quarterlyDeposits[quarter] || 0);
-            
+
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1588,7 +1642,7 @@
                             beginAtZero: true,
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return formatCurrency(value);
                                 }
                             }
@@ -1600,7 +1654,7 @@
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
                                 }
                             }
@@ -1620,7 +1674,7 @@
 
         function createPortfolioCompositionChart() {
             const ctx = document.getElementById('portfolioCompositionChart').getContext('2d');
-            
+
             // Load current stock values from CSV and create portfolio composition
             fetch('./output/current_stock_values.csv?t=' + Date.now())
                 .then(response => response.text())
@@ -1629,44 +1683,44 @@
                     const lines = csvText.trim().split('\n');
                     const headers = lines[0].split(',');
                     const stockData = [];
-                    
+
                     for (let i = 1; i < lines.length; i++) {
                         const values = lines[i].split(',');
                         const stock = {};
                         headers.forEach((header, index) => {
                             stock[header] = values[index];
                         });
-                        
+
                         // Only include stocks with valid position values (successful price fetches)
                         if (stock.source !== 'failed' && stock.position_value && parseFloat(stock.position_value) > 0) {
                             stock.position_value_num = parseFloat(stock.position_value);
                             stockData.push(stock);
                         }
                     }
-                    
+
                     // Sort by position value (largest to smallest) and take top 10
                     const sortedStocks = stockData
                         .sort((a, b) => b.position_value_num - a.position_value_num)
                         .slice(0, 10);
-                    
+
                     // Get USD to EUR conversion rate from portfolio summary
-                    const usdToEurRate = masterData?.portfolio_summary?.current_portfolio_value_eur && 
-                                       masterData?.portfolio_summary?.current_portfolio_value_eur > 0 ?
-                                       masterData.portfolio_summary.current_portfolio_value_eur / 
-                                       stockData.reduce((sum, stock) => sum + stock.position_value_num, 0) : 0.85; // fallback rate
-                    
+                    const usdToEurRate = masterData?.portfolio_summary?.current_portfolio_value_eur &&
+                        masterData?.portfolio_summary?.current_portfolio_value_eur > 0 ?
+                        masterData.portfolio_summary.current_portfolio_value_eur /
+                        stockData.reduce((sum, stock) => sum + stock.position_value_num, 0) : 0.85; // fallback rate
+
                     // Convert values to EUR and calculate totals
                     const stockDataEUR = stockData.map(stock => ({
                         ...stock,
                         position_value_eur: stock.position_value_num * usdToEurRate
                     }));
-                    
+
                     const sortedStocksEUR = stockDataEUR
                         .sort((a, b) => b.position_value_eur - a.position_value_eur)
                         .slice(0, 10);
-                    
+
                     const totalValueEUR = stockDataEUR.reduce((sum, stock) => sum + stock.position_value_eur, 0);
-                    
+
                     // Prepare chart data with percentages in labels
                     const labels = sortedStocksEUR.map(stock => {
                         const name = stock.company_name || stock.symbol || 'Unknown';
@@ -1676,7 +1730,7 @@
                     });
                     const data = sortedStocksEUR.map(stock => stock.position_value_eur);
                     const percentages = sortedStocksEUR.map(stock => ((stock.position_value_eur / totalValueEUR) * 100).toFixed(1));
-                    
+
                     // Create the chart
                     createPieChart(ctx, labels, data, percentages, totalValueEUR, usdToEurRate);
                 })
@@ -1686,13 +1740,13 @@
                     createErrorChart(ctx, 'Unable to load current stock values');
                 });
         }
-        
+
         function createPieChart(ctx, labels, data, percentages, totalValueEUR, usdToEurRate) {
             const colors = [
                 '#64b5f6', '#e91e63', '#ff9800', '#10b981', '#ef4444',
                 '#f59e0b', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'
             ];
-            
+
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -1726,12 +1780,12 @@
                             borderColor: 'rgba(100, 181, 246, 0.3)',
                             borderWidth: 1,
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     const percentage = percentages[context.dataIndex];
                                     const value = context.parsed;
                                     return `${context.label}: €${value.toLocaleString()}`;
                                 },
-                                afterBody: function(context) {
+                                afterBody: function (context) {
                                     return [`Total Portfolio: €${totalValueEUR.toLocaleString()}`, `USD/EUR Rate: ${usdToEurRate.toFixed(4)}`];
                                 }
                             }
@@ -1741,7 +1795,7 @@
                 }
             });
         }
-        
+
         function createErrorChart(ctx, message) {
             // Create a simple text display for error state
             ctx.font = '16px Inter';
@@ -1749,7 +1803,7 @@
             ctx.textAlign = 'center';
             ctx.fillText(message, ctx.canvas.width / 2, ctx.canvas.height / 2);
         }
-        
+
         function loadStockCount() {
             // Load current stock values and count them
             fetch('./output/current_stock_values.csv?t=' + Date.now())
@@ -1758,23 +1812,23 @@
                     // Parse CSV data
                     const lines = csvText.trim().split('\n');
                     const headers = lines[0].split(',');
-                    
+
                     let totalStocks = 0;
                     let stocksWithPrices = 0;
-                    
+
                     for (let i = 1; i < lines.length; i++) {
                         const values = lines[i].split(',');
                         const stock = {};
                         headers.forEach((header, index) => {
                             stock[header] = values[index];
                         });
-                        
+
                         totalStocks++;
                         if (stock.source !== 'failed' && stock.position_value && parseFloat(stock.position_value) > 0) {
                             stocksWithPrices++;
                         }
                     }
-                    
+
                     // Update the metric card
                     document.getElementById('total-stocks').textContent = totalStocks;
                     document.getElementById('stocks-info').textContent = `${stocksWithPrices} with current prices`;
@@ -1789,13 +1843,13 @@
 
         function createDividendGrowthChart() {
             const ctx = document.getElementById('dividendGrowthChart').getContext('2d');
-            
+
             // Use dividend totals by year from portfolio analysis
             const dividendsByYear = masterData.detailed_summaries?.dividends?.dividend_by_year || {};
-            
+
             const years = Object.keys(dividendsByYear).sort();
             const values = years.map(year => dividendsByYear[year]);
-            
+
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1821,7 +1875,7 @@
                             beginAtZero: true,
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return formatCurrency(value);
                                 }
                             }
@@ -1833,7 +1887,7 @@
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
                                 }
                             }
@@ -1845,32 +1899,32 @@
 
         function createMonthlyDividendChart() {
             const ctx = document.getElementById('monthlyDividendChart').getContext('2d');
-            
+
             // Group dividends by month and by company
             const monthlyData = {};
             const companies = new Set();
-            
+
             dividendsData.forEach(d => {
                 const yearMonth = d.Year_Month;
                 const company = d.Company;
-                
+
                 if (!monthlyData[yearMonth]) {
                     monthlyData[yearMonth] = {};
                 }
                 if (!monthlyData[yearMonth][company]) {
                     monthlyData[yearMonth][company] = 0;
                 }
-                
+
                 monthlyData[yearMonth][company] += d.Amount_EUR;
                 companies.add(company);
             });
-            
+
             // Filter out months with zero or negative net dividends
             const validMonths = Object.keys(monthlyData).filter(yearMonth => {
                 const monthTotal = Object.values(monthlyData[yearMonth]).reduce((sum, amount) => sum + amount, 0);
                 return monthTotal > 0;
             }).sort();
-            
+
             // Get top companies by total dividends for better visualization
             const companyTotals = {};
             Array.from(companies).forEach(company => {
@@ -1881,19 +1935,19 @@
                     }
                 });
             });
-            
+
             const topCompanies = Object.entries(companyTotals)
                 .filter(([_, total]) => total > 0)
-                .sort(([,a], [,b]) => b - a)
+                .sort(([, a], [, b]) => b - a)
                 .slice(0, 10)  // Show top 10 companies
                 .map(([company, _]) => company);
-            
+
             // Create datasets for each company
             const colors = [
                 '#64b5f6', '#e91e63', '#ff9800', '#10b981', '#ef4444',
                 '#f59e0b', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'
             ];
-            
+
             const datasets = topCompanies.map((company, index) => ({
                 label: company.length > 20 ? company.substring(0, 20) + '...' : company,
                 data: validMonths.map(yearMonth => {
@@ -1904,13 +1958,13 @@
                 borderColor: colors[index % colors.length],
                 borderWidth: 1
             }));
-            
+
             // Format month labels
             const labels = validMonths.map(yearMonth => {
                 const [year, month] = yearMonth.split('-');
                 return new Date(year, month - 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
             });
-            
+
             new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -1930,7 +1984,7 @@
                             beginAtZero: true,
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return formatCurrency(value);
                                 }
                             }
@@ -1941,7 +1995,7 @@
                             mode: 'index',
                             intersect: false,
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
                                 }
                             }
@@ -1967,7 +2021,7 @@
 
         function createTopDividendStocksChart() {
             const ctx = document.getElementById('topDividendStocksChart').getContext('2d');
-            
+
             // Calculate total dividends by company from all transactions
             const dividendsByCompany = {};
             dividendsData.forEach(d => {
@@ -1976,15 +2030,15 @@
                 }
                 dividendsByCompany[d.Company] += d.Amount_EUR;
             });
-            
+
             // Get top 8 dividend companies
             const stocks = Object.entries(dividendsByCompany)
-                .sort(([,a], [,b]) => b - a)
+                .sort(([, a], [, b]) => b - a)
                 .slice(0, 8);
-            
+
             const labels = stocks.map(([name]) => name.length > 15 ? name.substring(0, 15) + '...' : name);
             const data = stocks.map(([_, value]) => value);
-            
+
             new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -2006,7 +2060,7 @@
                             beginAtZero: true,
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return formatCurrency(value);
                                 }
                             }
@@ -2018,7 +2072,7 @@
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${formatCurrency(context.parsed.x)}`;
                                 }
                             }
@@ -2031,10 +2085,10 @@
 
         function createCumulativePerformanceChart() {
             const ctx = document.getElementById('cumulativePerformanceChart').getContext('2d');
-            
+
             // Create cumulative data
             const allTransactions = [];
-            
+
             // Add buy transactions
             buysData.filter(d => d.Is_Valid_Buy).forEach(t => {
                 allTransactions.push({
@@ -2043,7 +2097,7 @@
                     amount: Math.abs(t.Amount_EUR)
                 });
             });
-            
+
             // Add sell transactions
             sellsData.filter(d => d.Is_Valid_Sell).forEach(t => {
                 allTransactions.push({
@@ -2052,7 +2106,7 @@
                     amount: t.Amount_EUR
                 });
             });
-            
+
             // Add dividend transactions (verified positive dividends only)
             dividendsData.filter(d => d.Status === 'verified' && d.Amount_EUR > 0).forEach(t => {
                 allTransactions.push({
@@ -2061,15 +2115,15 @@
                     amount: t.Amount_EUR
                 });
             });
-            
+
             // Sort by date
             allTransactions.sort((a, b) => a.date - b.date);
-            
+
             // Calculate cumulative values
             let cumulativeInvested = 0;
             let cumulativeReturns = 0;
             const cumulativeData = [];
-            
+
             allTransactions.forEach(transaction => {
                 if (transaction.type === 'buy') {
                     cumulativeInvested += transaction.amount;
@@ -2078,7 +2132,7 @@
                 } else if (transaction.type === 'dividend') {
                     cumulativeReturns += transaction.amount;
                 }
-                
+
                 cumulativeData.push({
                     date: transaction.date,
                     invested: cumulativeInvested,
@@ -2086,10 +2140,10 @@
                     netValue: cumulativeInvested - cumulativeReturns
                 });
             });
-            
+
             // Sample data for chart (take every nth point for performance)
             const sampledData = cumulativeData.filter((_, index) => index % Math.max(1, Math.floor(cumulativeData.length / 50)) === 0);
-            
+
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -2129,7 +2183,7 @@
                             beginAtZero: true,
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return formatCurrency(value);
                                 }
                             }
@@ -2141,7 +2195,7 @@
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
                                 }
                             }
@@ -2160,11 +2214,11 @@
 
         function populateProductDropdown() {
             const productSelect = document.getElementById('productSelect');
-            
+
             // Get unique products from dividend data that have net positive dividends
             const products = new Set();
             const productNetDividends = {};
-            
+
             // Calculate net dividends per product (include ALL transactions to match bar chart)
             dividendsData.forEach(d => {
                 if (!productNetDividends[d.Company]) {
@@ -2172,20 +2226,20 @@
                 }
                 productNetDividends[d.Company] += d.Amount_EUR;
             });
-            
+
             // Add products with positive net dividends
             Object.keys(productNetDividends).forEach(company => {
                 if (productNetDividends[company] > 0) {
                     products.add(company);
                 }
             });
-            
+
             // Sort products alphabetically
             const sortedProducts = Array.from(products).sort();
-            
+
             // Clear existing options (except the default one)
             productSelect.innerHTML = '<option value="">-- All Products --</option>';
-            
+
             // Add product options
             sortedProducts.forEach(product => {
                 const option = document.createElement('option');
@@ -2197,11 +2251,11 @@
 
         function populateYearDropdown() {
             const yearSelect = document.getElementById('yearSelect');
-            
+
             // Get unique years from dividend data (include ALL transactions to match bar chart)
             const years = new Set();
             const yearNetDividends = {};
-            
+
             // Calculate net dividends per year
             dividendsData.forEach(d => {
                 const year = d.Date.getFullYear();
@@ -2210,20 +2264,20 @@
                 }
                 yearNetDividends[year] += d.Amount_EUR;
             });
-            
+
             // Only include years with positive net dividends
             Object.keys(yearNetDividends).forEach(year => {
                 if (yearNetDividends[year] > 0) {
                     years.add(parseInt(year));
                 }
             });
-            
+
             // Sort years in descending order (newest first)
             const sortedYears = Array.from(years).sort((a, b) => b - a);
-            
+
             // Clear existing options (except the default one)
             yearSelect.innerHTML = '<option value="">-- All Years --</option>';
-            
+
             // Add year options
             sortedYears.forEach(year => {
                 const option = document.createElement('option');
@@ -2236,14 +2290,14 @@
         function setupFilterHandlers() {
             const productSelect = document.getElementById('productSelect');
             const yearSelect = document.getElementById('yearSelect');
-            
+
             // Handle product selection changes
-            productSelect.addEventListener('change', function() {
+            productSelect.addEventListener('change', function () {
                 updateFilters();
             });
-            
+
             // Handle year selection changes
-            yearSelect.addEventListener('change', function() {
+            yearSelect.addEventListener('change', function () {
                 updateFilters();
             });
         }
@@ -2251,10 +2305,10 @@
         function updateFilters() {
             const selectedProduct = document.getElementById('productSelect').value;
             const selectedYear = document.getElementById('yearSelect').value;
-            
+
             // Update available options based on current selections
             updateAvailableOptions(selectedProduct, selectedYear);
-            
+
             // Show dividend table if any filter is selected
             if (selectedProduct || selectedYear) {
                 showDividendTable(selectedProduct, selectedYear);
@@ -2274,7 +2328,7 @@
                     document.getElementById('productSelect').value = selectedProduct;
                 }
             }
-            
+
             // Update year dropdown based on selected product
             if (selectedProduct) {
                 updateYearOptions(selectedProduct, selectedYear);
@@ -2289,11 +2343,11 @@
 
         function updateProductOptions(selectedYear, currentProduct) {
             const productSelect = document.getElementById('productSelect');
-            
+
             // Get products that have dividends in the selected year
             const productsInYear = new Set();
             const productNetDividends = {};
-            
+
             dividendsData
                 .filter(d => d.Date.getFullYear().toString() === selectedYear)
                 .forEach(d => {
@@ -2302,17 +2356,17 @@
                     }
                     productNetDividends[d.Company] += d.Amount_EUR;
                 });
-            
+
             // Add products with positive net dividends in that year
             Object.keys(productNetDividends).forEach(company => {
                 if (productNetDividends[company] > 0) {
                     productsInYear.add(company);
                 }
             });
-            
+
             // Sort products alphabetically
             const sortedProducts = Array.from(productsInYear).sort();
-            
+
             // Update dropdown
             productSelect.innerHTML = '<option value="">-- All Products --</option>';
             sortedProducts.forEach(product => {
@@ -2321,7 +2375,7 @@
                 option.textContent = product;
                 productSelect.appendChild(option);
             });
-            
+
             // Restore selection if it's still valid
             if (currentProduct && productsInYear.has(currentProduct)) {
                 productSelect.value = currentProduct;
@@ -2330,11 +2384,11 @@
 
         function updateYearOptions(selectedProduct, currentYear) {
             const yearSelect = document.getElementById('yearSelect');
-            
+
             // Get years that have dividends for the selected product
             const yearsForProduct = new Set();
             const yearNetDividends = {};
-            
+
             dividendsData
                 .filter(d => d.Company === selectedProduct)
                 .forEach(d => {
@@ -2344,17 +2398,17 @@
                     }
                     yearNetDividends[year] += d.Amount_EUR;
                 });
-            
+
             // Add years with positive net dividends for that product
             Object.keys(yearNetDividends).forEach(year => {
                 if (yearNetDividends[year] > 0) {
                     yearsForProduct.add(parseInt(year));
                 }
             });
-            
+
             // Sort years in descending order
             const sortedYears = Array.from(yearsForProduct).sort((a, b) => b - a);
-            
+
             // Update dropdown
             yearSelect.innerHTML = '<option value="">-- All Years --</option>';
             sortedYears.forEach(year => {
@@ -2363,7 +2417,7 @@
                 option.textContent = year.toString();
                 yearSelect.appendChild(option);
             });
-            
+
             // Restore selection if it's still valid
             if (currentYear && yearsForProduct.has(parseInt(currentYear))) {
                 yearSelect.value = currentYear;
@@ -2373,12 +2427,12 @@
         function showDividendTable(productName, selectedYear) {
             // First, get ALL dividend transactions for status calculation
             let allDividends = dividendsData.filter(d => true);
-            
+
             // Apply product filter if specified
             if (productName) {
                 allDividends = allDividends.filter(d => d.Company === productName);
             }
-            
+
             // Apply year filter if specified  
             if (selectedYear) {
                 allDividends = allDividends.filter(d => d.Date.getFullYear().toString() === selectedYear);
@@ -2389,11 +2443,11 @@
             // Use corrected yearly values from JSON instead of raw CSV calculations
             // Get corrected yearly breakdown from portfolio data
             const correctedYearlyDividends = masterData.portfolio_summary?.dividends?.yearly_breakdown || masterData.detailed_summaries?.dividends?.dividend_by_year || {};
-            
+
             allDividends.forEach(d => {
                 const yearMonth = d.Year_Month;
                 const year = d.Date.getFullYear().toString();
-                
+
                 if (!dividendsByMonth[yearMonth]) {
                     dividendsByMonth[yearMonth] = {
                         amount: 0,
@@ -2404,7 +2458,7 @@
                         statuses: []  // Track individual transaction statuses
                     };
                 }
-                
+
                 // Add ALL transactions to match bar chart calculation (don't filter by status)
                 dividendsByMonth[yearMonth].amount += d.Amount_EUR;
                 // Always count ALL transactions for status calculation
@@ -2414,7 +2468,7 @@
                     description: d.Description
                 });
                 dividendsByMonth[yearMonth].statuses.push(d.Status);  // Track individual status
-                
+
                 if (d.Amount_EUR > 0) {
                     dividendsByMonth[yearMonth].positiveTransactions += 1;
                 } else if (d.Amount_EUR < 0) {
@@ -2440,7 +2494,7 @@
             } else {
                 filterDescription = 'All Products';
             }
-            
+
             document.getElementById('selectedProductName').textContent = filterDescription;
             document.getElementById('dividendTableContainer').style.display = 'block';
 
@@ -2485,18 +2539,18 @@
 
         function formatYearMonth(yearMonth) {
             const [year, month] = yearMonth.split('-');
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             return `${monthNames[parseInt(month) - 1]} ${year}`;
         }
 
         function determineMonthStatus(monthData) {
             const { statuses, transactions, positiveTransactions, negativeTransactions } = monthData;
-            
+
             // If we have status data from CSV, use it intelligently
             if (statuses && statuses.length > 0) {
                 const uniqueStatuses = [...new Set(statuses)];
-                
+
                 // If all transactions are verified, determine by transaction pattern
                 if (uniqueStatuses.length === 1 && uniqueStatuses[0] === 'verified') {
                     // Single positive transaction, no negative = No withholding
@@ -2505,7 +2559,7 @@
                     }
                     // One positive + one negative = Standard verified dividend with tax
                     else if (transactions === 2 && positiveTransactions === 1 && negativeTransactions === 1) {
-                        return 'verified';  
+                        return 'verified';
                     }
                     // Multiple positive transactions (different companies/payments) in same month
                     else if (positiveTransactions > 1) {
@@ -2525,7 +2579,7 @@
                     return 'complex';
                 }
             }
-            
+
             // Fallback to original logic if no status data
             // Exactly 1 positive transaction, no negative = No withholding
             if (transactions === 1 && positiveTransactions === 1 && negativeTransactions === 0) {
@@ -2546,7 +2600,7 @@
         }
 
         function formatStatus(status) {
-            switch(status) {
+            switch (status) {
                 case 'verified': return 'Verified';
                 case 'no_withholding': return 'No Withholding';
                 case 'multiple_payments': return 'Multiple Payments';
@@ -2565,19 +2619,19 @@
         function initializeStockAnalysis() {
             console.log('Initializing stock analysis with cached data...');
             loadAvailableStocks();
-            
+
             // Add event listener for stock selection
-            document.getElementById('stockSelector').addEventListener('change', function(e) {
+            document.getElementById('stockSelector').addEventListener('change', function (e) {
                 const selectedSymbol = e.target.value;
                 currentStock = selectedSymbol;
-                
+
                 // Always clear first
                 clearStockChart();
-                
+
                 if (selectedSymbol) {
                     // Show time range buttons
                     document.getElementById('timeRangeButtons').style.display = 'flex';
-                    
+
                     // Small delay to ensure cleanup is complete
                     setTimeout(() => {
                         loadStockAnalysis(selectedSymbol, currentTimeRange);
@@ -2587,16 +2641,16 @@
                     document.getElementById('timeRangeButtons').style.display = 'none';
                 }
             });
-            
+
             // Add event listeners for time range buttons
             document.querySelectorAll('.time-range-btn').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     if (!currentStock) return;
-                    
+
                     // Update active button
                     document.querySelectorAll('.time-range-btn').forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
-                    
+
                     // Update current time range and reload chart
                     currentTimeRange = this.dataset.range;
                     loadStockAnalysis(currentStock, currentTimeRange);
@@ -2624,12 +2678,12 @@
 
         function populateStockDropdown(stocks) {
             const selector = document.getElementById('stockSelector');
-            
+
             // Clear existing options except the first one
             while (selector.children.length > 1) {
                 selector.removeChild(selector.lastChild);
             }
-            
+
             // Add stock options
             stocks.forEach(stock => {
                 const option = document.createElement('option');
@@ -2637,16 +2691,16 @@
                 option.textContent = `${stock.symbol} - ${stock.company_name}`;
                 selector.appendChild(option);
             });
-            
+
             console.log(`Populated dropdown with ${stocks.length} stocks`);
         }
 
         function loadStockAnalysis(symbol, timeRange = '5Y') {
             console.log(`Loading database analysis for ${symbol} (${timeRange})`);
-            
+
             // Show loading indicator
             document.getElementById('stockAnalysisLoading').style.display = 'block';
-            
+
             fetch(`${STOCK_API_BASE}/api/stock-analysis/${currentUserId}/${symbol}?range_type=${timeRange}`)
                 .then(response => {
                     if (!response.ok) {
@@ -2673,34 +2727,34 @@
 
         function createStockAnalysisChart(data, timeRange = '5Y') {
             console.log('Creating chart for:', data.symbol, 'with range:', timeRange);
-            
+
             const canvas = document.getElementById('stockAnalysisChart');
             if (!canvas) {
                 console.error('Canvas element not found');
                 return;
             }
-            
+
             const ctx = canvas.getContext('2d');
-            
+
             // Properly destroy existing chart
             if (stockAnalysisChart) {
                 console.log('Destroying existing chart');
                 stockAnalysisChart.destroy();
                 stockAnalysisChart = null;
             }
-            
+
             // Clear the canvas completely
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             // Validate data
             if (!data.price_data || !Array.isArray(data.price_data) || data.price_data.length === 0) {
                 console.error('Invalid or empty price data:', data.price_data);
                 showStockError('No price data available for this stock.');
                 return;
             }
-            
+
             console.log('Processing', data.price_data.length, 'price points for', data.symbol);
-            
+
             // Prepare price data for Chart.js (with proper dates)
             const priceData = data.price_data.map((point, index) => {
                 if (point.price === null || point.price === undefined) {
@@ -2712,15 +2766,15 @@
                     y: point.price
                 };
             }).filter(point => point !== null);
-            
+
             console.log('Valid price data points:', priceData.length);
-            
+
             // Prepare transaction data
             const buyTransactions = [];
             const sellTransactions = [];
-            
+
             console.log('Processing', data.transactions?.length || 0, 'transactions');
-            
+
             if (data.transactions && data.transactions.length > 0) {
                 data.transactions.forEach((transaction, index) => {
                     // Find the closest price point for this transaction date
@@ -2731,7 +2785,7 @@
                             y: closestPricePoint.price,
                             transaction: transaction
                         };
-                        
+
                         if (transaction.type === 'buy') {
                             buyTransactions.push(transactionPoint);
                         } else {
@@ -2741,11 +2795,11 @@
                         console.warn('No price data found for transaction date:', transaction.date);
                     }
                 });
-                
+
                 console.log('Buy transactions:', buyTransactions.length);
                 console.log('Sell transactions:', sellTransactions.length);
             }
-            
+
             // Create datasets with price line and transaction markers
             const datasets = [{
                 label: `${data.symbol} Price`,
@@ -2757,7 +2811,7 @@
                 pointRadius: 0,
                 pointHoverRadius: 4
             }];
-            
+
             // Add buy transaction markers
             if (buyTransactions.length > 0) {
                 datasets.push({
@@ -2772,7 +2826,7 @@
                     order: 1
                 });
             }
-            
+
             // Add sell transaction markers
             if (sellTransactions.length > 0) {
                 datasets.push({
@@ -2787,83 +2841,83 @@
                     order: 1
                 });
             }
-            
+
             console.log('Dataset created with', priceData.length, 'price points,', buyTransactions.length, 'buys,', sellTransactions.length, 'sells');
-            
+
             console.log('Creating Chart.js instance with', datasets.length, 'datasets');
-            
+
             try {
                 stockAnalysisChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'month'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            beginAtZero: false,
-                            title: {
-                                display: true,
-                                text: 'Price (USD)'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(2);
-                                }
-                            }
-                        }
+                    type: 'line',
+                    data: {
+                        datasets: datasets
                     },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: `${data.symbol} - ${timeRange} Price History with Transactions`,
-                            font: {
-                                size: 16,
-                                weight: 'bold'
-                            }
-                        },
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    return new Date(context[0].parsed.x).toLocaleDateString();
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: 'month'
                                 },
-                                label: function(context) {
-                                    if (context.dataset.label.includes('Orders')) {
-                                        const transaction = context.raw.transaction;
-                                        return [
-                                            `${transaction.type.toUpperCase()}: ${transaction.shares} shares`,
-                                            `Price: $${context.parsed.y.toFixed(2)}`,
-                                            `Amount: €${transaction.amount_eur.toFixed(2)}`
-                                        ];
-                                    } else {
-                                        return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}`;
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Price (USD)'
+                                },
+                                ticks: {
+                                    callback: function (value) {
+                                        return '$' + value.toFixed(2);
                                     }
                                 }
                             }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `${data.symbol} - ${timeRange} Price History with Transactions`,
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    title: function (context) {
+                                        return new Date(context[0].parsed.x).toLocaleDateString();
+                                    },
+                                    label: function (context) {
+                                        if (context.dataset.label.includes('Orders')) {
+                                            const transaction = context.raw.transaction;
+                                            return [
+                                                `${transaction.type.toUpperCase()}: ${transaction.shares} shares`,
+                                                `Price: $${context.parsed.y.toFixed(2)}`,
+                                                `Amount: €${transaction.amount_eur.toFixed(2)}`
+                                            ];
+                                        } else {
+                                            return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}`;
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
                         }
-                    },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
                     }
-                }
-            });
+                });
             } catch (error) {
                 console.error('Error creating stock analysis chart:', error);
                 showStockError('Error creating chart. Please try selecting another stock.');
@@ -2875,7 +2929,7 @@
                 stockAnalysisChart.destroy();
                 stockAnalysisChart = null;
             }
-            
+
             // Also clear the canvas
             const canvas = document.getElementById('stockAnalysisChart');
             const ctx = canvas.getContext('2d');
@@ -2884,10 +2938,10 @@
 
         function showStockError(message) {
             const ctx = document.getElementById('stockAnalysisChart').getContext('2d');
-            
+
             // Clear existing chart
             clearStockChart();
-            
+
             // Show error message
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
             ctx.font = '16px Inter';
@@ -2897,11 +2951,12 @@
         }
 
         // Initialize the dashboard when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initializeUpload();
             // Check if data exists first, then decide what to show
             checkPortfolioStatus();
         });
     </script>
 </body>
+
 </html>
